@@ -1,12 +1,16 @@
-#include "mainwindow.h"
 #include <QApplication>
+#include <QMainWindow>
+
+#include "mapwidget.h"
+#include "window.h"
 
 int main(int argc, char *argv[])
 {
- //kek
-  QApplication a(argc, argv);
-  MainWindow w;
-  w.show();
 
-  return a.exec();
+    QApplication app(argc, argv);
+
+    Window window;
+    window.show();
+
+    return app.exec();
 }
