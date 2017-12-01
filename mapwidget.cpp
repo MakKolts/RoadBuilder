@@ -1,12 +1,11 @@
 #include "mapwidget.h"
-#include "roadline.h"
 
 #include <QKeyEvent>
 #include <QPointF>
 
 MapWidget::MapWidget(QWidget *parent) : QGraphicsView(parent)
 {
-    QGraphicsScene *scene = new QGraphicsScene(this);
+    scene = new QGraphicsScene(this);
     scene->setItemIndexMethod(QGraphicsScene::BspTreeIndex);
     scene->setSceneRect(0, 0, 640, 480);
     setScene(scene);
@@ -19,9 +18,14 @@ MapWidget::MapWidget(QWidget *parent) : QGraphicsView(parent)
     setDragMode(QGraphicsView::ScrollHandDrag);
     setWindowTitle(tr("Elastic Nodes"));
 
-    scene->addItem(new RoadLine(QPointF(50, 100), QPointF(250, 100)));
-    scene->addItem(new RoadLine(QPointF(150, 100), QPointF(150, 300)));
-    scene->addItem(new RoadLine(QPointF(50, 300), QPointF(250, 300)));
+    lines.append(new RoadLine(QPointF(50, 100), QPointF(250, 100)));
+    lines.append(new RoadLine(QPointF(150, 100), QPointF(150, 300)));
+    lines.append(new RoadLine(QPointF(50, 300), QPointF(250, 300)));
+
+    for (auto line: lines)
+    {
+        scene->addItem(line);
+    }
 }
 
 void MapWidget::scaleView(qreal scaleFactor)
@@ -48,4 +52,12 @@ void MapWidget::zoomIn()
 void MapWidget::zoomOut()
 {
     scaleView(1 / qreal(1.2));
+}
+
+void MapWidget::setTime(int time)
+{
+    for (auto line: lines)
+    {
+        line->setTime(time);
+    }
 }

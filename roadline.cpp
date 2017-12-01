@@ -1,19 +1,17 @@
 #include "roadline.h"
-#include <QPainter>
 #include <QMessageBox>
 
 RoadLine::RoadLine(QPointF p1, QPointF p2) : sourcePoint(p1), destPoint(p2)
 {
-
+    qreal colorProportion = curDensity/maxDensity;
+    this->color.setRgb(250*colorProportion, 250*(1-colorProportion), 0);
 }
 
 void RoadLine::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
-    qreal colorProportion = curDensity/maxDensity;
-    QColor color(250*colorProportion, 250*(1-colorProportion), 0);
-    QPen pen(color);
-    pen.setWidth(penWidth);
-    painter->setPen(pen);
+    this->pen.setColor(color);
+    this->pen.setWidth(penWidth);
+    painter->setPen(this->pen);
 
     QLineF line(sourcePoint, destPoint);
     painter->drawLine(line);
@@ -49,4 +47,10 @@ void RoadLine::setDensity(qreal current, qreal max_val)
 {
     this->curDensity = current;
     this->maxDensity = max_val;
+}
+
+void RoadLine::setTime(int time)
+{
+    this->color.setRgb(255.0*time/100.0, 0, 0, 255);
+    update();
 }

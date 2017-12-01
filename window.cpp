@@ -8,7 +8,10 @@ Window::Window()
     QGridLayout *mainLayout = new QGridLayout;
     mainLayout->addWidget(map);
 
-    mainLayout->addWidget(new QSlider(Qt::Horizontal));
+    QSlider *slider = new QSlider(Qt::Horizontal);
+    mainLayout->addWidget(slider);
     setWindowTitle(tr("Crossroads"));
     setLayout(mainLayout);
+
+    connect(slider, SIGNAL(valueChanged(int)), map, SLOT(setTime(int)));
 }
